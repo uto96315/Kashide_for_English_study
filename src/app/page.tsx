@@ -1,9 +1,11 @@
-import Image from 'next/image'
+import Image from 'next/image';
+import { RecoilRoot, atom } from 'recoil';
+
 
 export default function Home() {
+
   return (
-    <main className="">
-      あああ
-    </main>
-  )
+      <main className="">
+      </main>
+  );
 }
