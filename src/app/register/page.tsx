@@ -4,6 +4,7 @@ import Checkbox from "@/components/checkbox";
 import InputForm from "@/components/inputForm";
 import { emailPattern } from "@/data/pattern";
 import { signUpWithEmail } from "@/functions/auth";
+import { registerUserData } from "@/functions/firestore";
 import { useEffect, useState } from "react";
 
 
@@ -28,10 +29,15 @@ const RegisterPage = () => {
         }
     }, [email, password, emailError, passwordError, tosChecked, canRegister]);
 
-    // 新規登録
     const register = async () => {
         try {
-            await signUpWithEmail(email, password);
+            const authResult = await signUpWithEmail(email, password);
+            const uid = authResult.uid;
+            if (uid) {
+                await registerUserData(uid, email);
+            } else {
+                console.log("uidがありません。", uid);
+            }
         } catch (e) {
             console.log("認証でエラーが発生しました。", e);
             alert("登録エラーが発生しました。\n再度お試しください。");
