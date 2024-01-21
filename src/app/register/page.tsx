@@ -28,6 +28,7 @@ const RegisterPage = () => {
         }
     }, [email, password, emailError, passwordError, tosChecked, canRegister]);
 
+    // 新規登録
     const register = async () => {
         try {
             await signUpWithEmail(email, password);
