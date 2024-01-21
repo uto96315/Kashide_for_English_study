@@ -29,7 +29,6 @@ const RegisterPage = () => {
         }
     }, [email, password, emailError, passwordError, tosChecked, canRegister]);
 
-    // auth -> storage -> firestore 
     const register = async () => {
         try {
             const authResult = await signUpWithEmail(email, password);
