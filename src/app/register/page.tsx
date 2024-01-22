@@ -5,6 +5,7 @@ import InputForm from "@/components/inputForm";
 import { emailPattern } from "@/data/pattern";
 import { signUpWithEmail } from "@/functions/auth";
 import { registerUserData } from "@/functions/firestore";
+import { makeDirectoryWithRegister } from "@/functions/storage";
 import { useEffect, useState } from "react";
 
 
@@ -33,8 +34,12 @@ const RegisterPage = () => {
         try {
             const authResult = await signUpWithEmail(email, password);
             const uid = authResult.uid;
+            // authに登録ができたらstorageに空のフォルダを作成
             if (uid) {
-                await registerUserData(uid, email);
+                const storageResult =  await makeDirectoryWithRegister(uid);
+                if(storageResult) {
+                    await registerUserData(uid, email, storageResult);
+                }
             } else {
                 console.log("uidがありません。", uid);
             }
