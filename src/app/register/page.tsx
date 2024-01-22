@@ -6,11 +6,14 @@ import { emailPattern } from "@/data/pattern";
 import { signUpWithEmail } from "@/functions/auth";
 import { registerUserData } from "@/functions/firestore";
 import { makeDirectoryWithRegister } from "@/functions/storage";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
 
 const RegisterPage = () => {
+
+    const router = useRouter();
 
     // state関係
     const [email, setEmail] = useState<string>("");
@@ -36,8 +39,8 @@ const RegisterPage = () => {
             const uid = authResult.uid;
             // authに登録ができたらstorageに空のフォルダを作成
             if (uid) {
-                const storageResult =  await makeDirectoryWithRegister(uid);
-                if(storageResult) {
+                const storageResult = await makeDirectoryWithRegister(uid);
+                if (storageResult) {
                     await registerUserData(uid, email, storageResult);
                 }
             } else {
@@ -109,6 +112,17 @@ const RegisterPage = () => {
                             }}
                             errorMessage=""
                         />
+                    </div>
+
+                    <div className="mt-6 text-sm text-center">
+                        <p>すでに登録されている方は
+                            <span
+                                onClick={() => { router.push("/login"); }}
+                                className="border-b border-blue-400 pb-1 cursor-pointer hover:font-bold"
+                            >
+                                こちらからログイン
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
