@@ -3,7 +3,7 @@ import { db } from "./firebase";
 
 
 
-const registerUserData = async (uid: string, email: string) => {
+const registerUserData = async (uid: string, email: string, storagePath: string) => {
     const userCollection = collection(db, "Users");
     const userDoc = doc(userCollection, uid);
     const userData = {
@@ -11,7 +11,7 @@ const registerUserData = async (uid: string, email: string) => {
         email: email,
         userName: `User${uid.slice(0, 4)}`,
         gender: "NA",
-        profilePath: "NA",
+        profilePath: storagePath,
         level: 0,
         age: 0,
     };
