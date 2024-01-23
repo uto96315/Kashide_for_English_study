@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
 
 
@@ -13,5 +13,15 @@ export const signUpWithEmail = async (email: string, password: string) => {
     } catch (error) {
         console.log(`サインアップでエラーが発生しました。${error}`);
         throw error;
+    }
+};
+
+// ログインするための処理
+export const loginWithEmail = async (email: string, pass: string) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+        return userCredential.user;
+    } catch (e) {
+        throw e;
     }
 };
