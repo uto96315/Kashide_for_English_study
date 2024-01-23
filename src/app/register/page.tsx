@@ -2,13 +2,14 @@
 import Button from "@/components/button";
 import Checkbox from "@/components/checkbox";
 import InputForm from "@/components/inputForm";
+import Title from "@/components/title";
 import { emailPattern } from "@/data/pattern";
 import { signUpWithEmail } from "@/functions/auth";
 import { registerUserData } from "@/functions/firestore";
 import { makeDirectoryWithRegister } from "@/functions/storage";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import Image from 'next/image';
 
 
 const RegisterPage = () => {
@@ -49,7 +50,6 @@ const RegisterPage = () => {
         } catch (e) {
             console.log("認証でエラーが発生しました。", e);
             alert("登録エラーが発生しました。\n再度お試しください。");
-            window.location.reload();
         }
     };
 
@@ -57,6 +57,16 @@ const RegisterPage = () => {
         <div className="min-h-screen bg-gray-100">
             <div className="w-full flex justify-center items-center pt-10">
                 <div className="bg-white px-24 py-10 shadow-md rounded-2xl">
+
+                    <div className="flex justify-center pb-8">
+                        <Image
+                            src="/logo_pink.svg" 
+                            alt="Alternative Text" 
+                            width={300} 
+                            height={250} 
+                        />
+                    </div>
+
                     <InputForm
                         label="メールアドレス"
                         errorMessage={emailError}
@@ -118,7 +128,7 @@ const RegisterPage = () => {
                         <p>すでに登録されている方は
                             <span
                                 onClick={() => { router.push("/login"); }}
-                                className="border-b border-blue-400 pb-1 cursor-pointer hover:font-bold"
+                                className="border-b-2 border-pink-400 cursor-pointer hover:font-bold pb-1"
                             >
                                 こちらからログイン
                             </span>
