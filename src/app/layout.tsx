@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Cookie, Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/header';
 
 const inter = Inter({ subsets: ['latin'] });
 import 'tailwindcss/tailwind.css';
 import Sidebar from '@/components/sidebar';
-import { RecoilRoot } from 'recoil';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
