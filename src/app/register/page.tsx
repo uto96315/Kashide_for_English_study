@@ -2,14 +2,19 @@
 import Button from "@/components/button";
 import Checkbox from "@/components/checkbox";
 import InputForm from "@/components/inputForm";
+import Title from "@/components/title";
 import { emailPattern } from "@/data/pattern";
 import { signUpWithEmail } from "@/functions/auth";
 import { registerUserData } from "@/functions/firestore";
+import { makeDirectoryWithRegister } from "@/functions/storage";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import Image from 'next/image';
 
 
 const RegisterPage = () => {
+
+    const router = useRouter();
 
     // state関係
     const [email, setEmail] = useState<string>("");
@@ -33,15 +38,18 @@ const RegisterPage = () => {
         try {
             const authResult = await signUpWithEmail(email, password);
             const uid = authResult.uid;
+            // authに登録ができたらstorageに空のフォルダを作成
             if (uid) {
-                await registerUserData(uid, email);
+                const storageResult = await makeDirectoryWithRegister(uid);
+                if (storageResult) {
+                    await registerUserData(uid, email, storageResult);
+                }
             } else {
                 console.log("uidがありません。", uid);
             }
         } catch (e) {
             console.log("認証でエラーが発生しました。", e);
             alert("登録エラーが発生しました。\n再度お試しください。");
-            window.location.reload();
         }
     };
 
@@ -49,6 +57,16 @@ const RegisterPage = () => {
         <div className="min-h-screen bg-gray-100">
             <div className="w-full flex justify-center items-center pt-10">
                 <div className="bg-white px-24 py-10 shadow-md rounded-2xl">
+
+                    <div className="flex justify-center pb-8">
+                        <Image
+                            src="/logo_pink.svg" 
+                            alt="Alternative Text" 
+                            width={300} 
+                            height={250} 
+                        />
+                    </div>
+
                     <InputForm
                         label="メールアドレス"
                         errorMessage={emailError}
@@ -104,6 +122,17 @@ const RegisterPage = () => {
                             }}
                             errorMessage=""
                         />
+                    </div>
+
+                    <div className="mt-6 text-sm text-center">
+                        <p>すでに登録されている方は
+                            <span
+                                onClick={() => { router.push("/login"); }}
+                                className="border-b-2 border-pink-400 cursor-pointer hover:font-bold pb-1"
+                            >
+                                こちらからログイン
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
